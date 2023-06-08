@@ -1,0 +1,60 @@
+{
+    "alignment": 0,
+    "bg-color": "#FFFFFF",
+    "body": "<h1>Malware</h1><p>Le infezioni da malware possono essere causate da utenti malintenzionati che sfruttano applicazioni vulnerabili o inducendo gli utenti a scaricare file infetti da Internet utilizzando applicazioni non vulnerabili. Il malware spesso prende di mira informazioni personali, finanziarie o aziendali sensibili per guadagno monetario. Perch&eacute; un malware possa raggiungere i suoi obiettivi, deve essere in grado di funzionare senza essere rilevato. Fornire visibilit&agrave; sulle applicazioni in rete e la capacit&agrave; di rilevare / bloccare malware aiuta gli amministratori a proteggere le risorse aziendali e bloccare le minacce imminenti.</p><p>Il servizio AntiVirus FortiGuard impiega motori avanzati di rilevamento di virus, spyware e euristici per consentire ai sistemi FortiGate di rilevare e prevenire sia minacce nuove che in evoluzione. Per AntiVirus vedere:&nbsp;<a href=\"http://www.fortiguard.com/encyclopedia\">http://www.fortiguard.com/encyclopedia</a></p><p>Le tabelle seguenti mostrano i virus comuni rilevati, le comunicazioni C&amp;C botnet rilevate e lo spyware/adware trovato.</p><fazchart mkey=\"515d3d4c21ed40809a812762c933add5\" title=\"Malware Individuati\" width=\"100%\"></fazchart><fazchart mkey=\"40cd08cded7440fc8f12322133720311\" title=\"Vittime di Malware\" width=\"100%\"></fazchart><fazchart mkey=\"4709c8cc315a4141961314dd944bf2b7\" title=\"Sorgenti di Malware\" width=\"100%\"></fazchart><fazchart mkey=\"2dbaebbb5dac4af0a73f9f3568e6a6ba\" title=\"Timeline dei Malware\" width=\"100%\"></fazchart><div style=\"page-break-after: always\"><span style=\"display:none\">&nbsp;</span></div><h1>Botnet</h1><fazchart mkey=\"394f27d60c1e4862a57af4df338295cb\" title=\"Botnet Individuati\" width=\"100%\"></fazchart><fazchart mkey=\"9d4c74813a7a4ad888f120aa2fdcec6a\" title=\"Vittime di Botnet\" width=\"100%\"></fazchart><fazchart mkey=\"96029651db6d4831ac0afd6f932c48c0\" title=\"Sorgenti C&amp;C di Botnet\" width=\"100%\"></fazchart><fazchart mkey=\"ab1c7cbc9ffd46ba98c9c647c5c7a54c\" title=\"Sorgenti C&amp;C di Botnet scovate dal Filtro DNS\" width=\"100%\"></fazchart><fazchart mkey=\"dadf54c2711a48fc962e5d703230d8c1\" title=\"Timeline delle Botnet\" width=\"100%\"></fazchart><div style=\"page-break-after: always\"><span style=\"display:none\">&nbsp;</span></div><h1>Intrusioni</h1><fazchart mkey=\"b541c6ec7c1c4f90a88a3536398a879a\" title=\"Intrusioni Individuate\" width=\"100%\"></fazchart><fazchart mkey=\"5d52db93159a48339fc261dc3636b73f\" title=\"Vittime di Attacco\" width=\"100%\"></fazchart><fazchart mkey=\"07d34e7bf7764d7db4a2993361225df8\" title=\"Sorgenti di Attacco\" width=\"100%\"></fazchart><fazchart mkey=\"4913e9835a46478dbaa234f4de5b2179\" title=\"Intrusioni per Gravità\" width=\"100%\"></fazchart><fazchart mkey=\"551841b39a8c42498426e08c085427fc\" title=\"Intrusioni Blocccate\" width=\"100%\"></fazchart><fazchart mkey=\"857e6295cbff4d669d00f8c7621a72df\" title=\"Timeline delle Intrusioni\" width=\"100%\"></fazchart><div style=\"page-break-after: always\"><span style=\"display:none\">&nbsp;</span></div><h1>Attacchi &quot;Zero-Day&quot; rilevati sulla Rete</h1><p>Una vulnerabilit&agrave; zero-day &egrave; una minaccia precedentemente sconosciuta che non ha ancora una patch disponibile dal fornitore. Le applicazioni comunemente utilizzate come i browser Web e le applicazioni client di posta elettronica sono spesso destinate agli exploit zero-day a causa della loro diffusa distribuzione e utilizzo; ad esempio, gli attacchi possono inviare un malware zero-day come allegati di posta elettronica che sfruttano le vulnerabilit&agrave; nell&#39;applicazione che apre l&#39;allegato.</p><p>Il team di ricerca di FortiGuard monitora in modo proattivo il panorama delle minacce e cerca vulnerabilit&agrave; zero-day; una volta identificata una vulnerabilit&agrave; zero-day, una o pi&ugrave; firme avanzate vengono sviluppate e inviate ai clienti prima che sia disponibile la versione della patch di un fornitore. Queste firme sono uniche per Fortinet e svolgono un ruolo fondamentale nella lotta contro le minacce persistenti avanzate (APT).</p><p>La sezione seguente fornisce un riepilogo dei file analizzati da FortiCloud Sandbox durante l&#39;ultimo periodo.</p><fazchart mkey=\"fa6b2d985aca4a0ab51a136b77b6e306\" title=\"Malware Zero-Day trovati sulla rete dalla scansione AntiVirus, ordinata per conteggio\" width=\"100%\"></fazchart><fazchart mkey=\"2c57f4805e5342059039405c4192156a\" title=\"File Analizzati dalla SandBox\" width=\"100%\"></fazchart><fazchart mkey=\"7be3909369ad40b8b1ca349147271aa4\" title=\"File Malevoli scovati dalla SandBox\" width=\"100%\"></fazchart><p>&nbsp;</p>",
+    "category": "Security",
+    "chart-heading-level": 2,
+    "chart-info-display": 0,
+    "component": null,
+    "coverpage-background-image": "{user_img_path}/Clipboard03.png",
+    "coverpage-bottom-image": "",
+    "coverpage-custom-text1": "",
+    "coverpage-custom-text2": "",
+    "coverpage-enable-create-time": 1,
+    "coverpage-enable-time-period": 1,
+    "coverpage-footer-bgcolor": "#DC2127",
+    "coverpage-footer-left": "",
+    "coverpage-footer-right": "",
+    "coverpage-text-color": "#666666",
+    "coverpage-title": "Minacce e Vulnerabilità",
+    "coverpage-top-image": "",
+    "coverpage-top-image-position": 1,
+    "description": "Malware, Botnets - detected, victims and sources. Intrusions detected, sources, blocked severity and timeline.",
+    "dev-type": 0,
+    "folders": [
+        {
+            "folder-id": null
+        }
+    ],
+    "font-color": "#000000",
+    "font-family": "Open Sans",
+    "font-size": 12,
+    "font-type": 0,
+    "footer": [
+        {
+            "footer-id": 1,
+            "graphic": null,
+            "text": "",
+            "type": 9
+        }
+    ],
+    "footer-bgcolor": "#FFFFFF",
+    "header": [
+        {
+            "graphic": "{user_img_path}/cropped-logo_ibs-1.png",
+            "header-id": 1,
+            "text": null,
+            "type": 1
+        }
+    ],
+    "header-bgcolor": "#FFFFFF",
+    "hide-report-title": 0,
+    "hide-rowid": 0,
+    "include-empty-charts": 1,
+    "is-template": 0,
+    "language": null,
+    "left-margin": 6,
+    "protected": 0,
+    "right-margin": 6,
+    "title": "Threat"
+}

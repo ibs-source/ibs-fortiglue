@@ -1,0 +1,60 @@
+{
+    "alignment": 0,
+    "bg-color": "#FFFFFF",
+    "body": "<h1>Applicazioni Web&nbsp;e Utilizzo di Banda</h1><fazchart mkey=\"a7fdcc202f974357aa63f150147b2a1e\" title=\"Volume di Traffico\" width=\"100%\"></fazchart><fazchart mkey=\"df2c467cad4b499a82331de3066c5dce\" title=\"Numero di Sessioni\" width=\"100%\"></fazchart><fazchart mkey=\"f790e522a0f94106bdbfb51b75fa4db4\" title=\"Principali Applicazioni Web per Volume di Traffico\" width=\"100%\"></fazchart><fazchart mkey=\"cb6191f5dc2a4bb2a2b8e65e7fa02803\" title=\"Principali Applicazioni Web per Sessioni\" width=\"100%\"></fazchart><fazchart mkey=\"f3e9d94bee654a62afc21bae832aec17\" title=\"Principali Utenti per Volume di Traffico\" width=\"100%\"></fazchart><fazchart mkey=\"11567bc9af3d4ff5961ccfded106b669\" title=\"Principali Utenti per Sessioni\" width=\"100%\"></fazchart><fazchart mkey=\"63dc355349864f4ea6311e59b9f9f537\" title=\"Principali Destinazioni per Volume di Traffico\" width=\"100%\"></fazchart><fazchart mkey=\"3feb14fb1bf84ec2943412d3ffa9084e\" title=\"Principali Destinazioni per Sessioni\" width=\"100%\"></fazchart><fazchart mkey=\"17b7d3e79cf840a1a9e8b956f58a3436\" title=\"Storico del Traffico per Numero di Sessioni Attive\" width=\"100%\"></fazchart><p>&nbsp;</p><div style=\"page-break-after: always\"><span style=\"display:none\">&nbsp;</span></div><h1>Utilizzo Web</h1><fazchart mkey=\"5d57632e9ed54c90bc221ffe9689e385\" title=\"Utenti più Attivi\" width=\"100%\"></fazchart><fazchart mkey=\"1e2cd17451784192a418dcbb9494543c\" title=\"Principali 20 Categorie Web più Visitate\" width=\"100%\"></fazchart><fazchart mkey=\"b47d36f06919426baeed875c4c125ade\" title=\"Principali 50 Siti Web Visitati\" width=\"100%\"></fazchart><fazchart mkey=\"bac2064deced4a5abe61fce181335d26\" title=\"Principali 10 Utenti per Tempo di Navigazione\" width=\"100%\"></fazchart><fazchart mkey=\"703fc8495029441c9146f3bfe4ddaf0a\" title=\"Principali 10 Categorie Web\" width=\"100%\"></fazchart><fazchart mkey=\"2020891e4e48455b81d9122b43ba0577\" title=\"Principali 50 Siti Web visitati per Tempo di Navigazione\" width=\"100%\"></fazchart><fazchart mkey=\"7830b4e2add74a83813fe3b20a661086\" title=\"Principali 20 Utenti per Volume di Traffico\" width=\"100%\"></fazchart><fazchart mkey=\"7cac6726aa71432880a8ffe986eb3e74\" title=\"Principali 20 Categorie per Volume di Traffico\" width=\"100%\"></fazchart><fazchart mkey=\"7dbec36fd9ab4500944a28e546595eb6\" title=\"Principali 50 Siti Web e Categorie per Volume di Traffico\" width=\"100%\"></fazchart><fazchart mkey=\"0e9b736fb15a48209d225c441b25c123\" title=\"Principali 20 Utenti più Bloccati\" width=\"100%\"></fazchart><fazchart mkey=\"1574707cd726413ebe552164f753d8bd\" title=\"Principali 20 Categorie Web più Bloccate\" width=\"100%\"></fazchart><fazchart mkey=\"11ccbc544bd84be2ad217bb890cdd31e\" title=\"Principali 50 Siti Web più Bloccati\" width=\"100%\"></fazchart><p>&nbsp;</p><div style=\"page-break-after: always\"><span style=\"display:none\">&nbsp;</span></div><h1>Email</h1><fazchart mkey=\"cb3eb92f8f1b4328afcf7998c36df2bc\" title=\"Principali Mittenti per Numero di Messaggi di Posta\" width=\"100%\"></fazchart><fazchart mkey=\"d6a4099656804625a8bc6b641e93fb8d\" title=\"Principali Destinatari per Numero di Messaggi di Posta\" width=\"100%\"></fazchart><fazchart mkey=\"9836811ff9a8418090909b0bca4c35a7\" title=\"Principali Mittenti per Dimensione dei Messaggi di Posta\" width=\"100%\"></fazchart><fazchart mkey=\"81430523cccc42f2aaf3a7e4a6a165c7\" title=\"Principali Destinatari per Dimensione dei Messaggi di Posta\" width=\"100%\"></fazchart><p>&nbsp;</p>",
+    "category": "Security",
+    "chart-heading-level": 2,
+    "chart-info-display": 0,
+    "component": null,
+    "coverpage-background-image": "{user_img_path}/Clipboard03.png",
+    "coverpage-bottom-image": "",
+    "coverpage-custom-text1": "",
+    "coverpage-custom-text2": "",
+    "coverpage-enable-create-time": 1,
+    "coverpage-enable-time-period": 1,
+    "coverpage-footer-bgcolor": "#5484ED",
+    "coverpage-footer-left": "",
+    "coverpage-footer-right": "",
+    "coverpage-text-color": "#666666",
+    "coverpage-title": "Utilizzo Web e Internet",
+    "coverpage-top-image": "",
+    "coverpage-top-image-position": 1,
+    "description": "Security Analysis of traffic, application, user, destination, bandwidth and sessions. DHCP, Wifi, traffic history. Web usage by users, categories and sites. Top email by senders, recipients. Malware, botnet, intrusion detections, victims and sources. VPN usage. Admin Login and system events.",
+    "dev-type": 0,
+    "folders": [
+        {
+            "folder-id": null
+        }
+    ],
+    "font-color": "#000000",
+    "font-family": "Open Sans",
+    "font-size": 12,
+    "font-type": 0,
+    "footer": [
+        {
+            "footer-id": 1,
+            "graphic": null,
+            "text": "",
+            "type": 9
+        }
+    ],
+    "footer-bgcolor": "#FFFFFF",
+    "header": [
+        {
+            "graphic": "{user_img_path}/cropped-logo_ibs-1.png",
+            "header-id": 1,
+            "text": null,
+            "type": 1
+        }
+    ],
+    "header-bgcolor": "#FFFFFF",
+    "hide-report-title": 0,
+    "hide-rowid": 0,
+    "include-empty-charts": 1,
+    "is-template": 0,
+    "language": null,
+    "left-margin": 6,
+    "protected": 0,
+    "right-margin": 6,
+    "title": "Web"
+}

@@ -1,0 +1,60 @@
+{
+    "alignment": 0,
+    "bg-color": "#FFFFFF",
+    "body": "<h1>Malware</h1><p>Malware infections can be caused by malicious users exploiting vulnerable applications or by tricking users into downloading infected files from the Internet using non-vulnerable applications. Malware often targets sensitive personal, financial, or corporate information for monetary gain. In order for malware to achieve its goals, it must be able to operate without being detected. Providing visibility into network applications and the ability to detect/block malware helps administrators protect corporate resources and block imminent threats.</p><p>The FortiGuard AntiVirus service employs advanced virus, spyware, and heuristic detection engines to enable FortiGate systems to detect and prevent both new and evolving threats. For AntiVirus, see: <a href=\"http://www.fortiguard.com/encyclopedia\">http://www.fortiguard.com/encyclopedia</a></p><p>The following tables show detected common viruses, detected botnet C&amp;C communications, and found spyware/adware.</p><fazchart mkey=\"515d3d4c21ed40809a812762c933add5\" title=\"Detected Malware\" width=\"100%\"></fazchart><fazchart mkey=\"40cd08cded7440fc8f12322133720311\" title=\"Malware Victims\" width=\"100%\"></fazchart><fazchart mkey=\"4709c8cc315a4141961314dd944bf2b7\" title=\"Malware Sources\" width=\"100%\"></fazchart><fazchart mkey=\"2dbaebbb5dac4af0a73f9f3568e6a6ba\" title=\"Malware Timeline\" width=\"100%\"></fazchart><div style=\"page-break-after: always\"><span style=\"display:none\">&nbsp;</span></div><h1>Botnet</h1><fazchart mkey=\"394f27d60c1e4862a57af4df338295cb\" title=\"Detected Botnets\" width=\"100%\"></fazchart><fazchart mkey=\"9d4c74813a7a4ad888f120aa2fdcec6a\" title=\"Botnet Victims\" width=\"100%\"></fazchart><fazchart mkey=\"96029651db6d4831ac0afd6f932c48c0\" title=\"Botnet C&amp;C Sources\" width=\"100%\"></fazchart><fazchart mkey=\"ab1c7cbc9ffd46ba98c9c647c5c7a54c\" title=\"Botnet C&amp;C Sources Discovered by DNS Filter\" width=\"100%\"></fazchart><fazchart mkey=\"dadf54c2711a48fc962e5d703230d8c1\" title=\"Botnet Timeline\" width=\"100%\"></fazchart><div style=\"page-break-after: always\"><span style=\"display:none\">&nbsp;</span></div><h1>Intrusions</h1><fazchart mkey=\"b541c6ec7c1c4f90a88a3536398a879a\" title=\"Detected Intrusions\" width=\"100%\"></fazchart><fazchart mkey=\"5d52db93159a48339fc261dc3636b73f\" title=\"Attack Victims\" width=\"100%\"></fazchart><fazchart mkey=\"07d34e7bf7764d7db4a2993361225df8\" title=\"Attack Sources\" width=\"100%\"></fazchart><fazchart mkey=\"4913e9835a46478dbaa234f4de5b2179\" title=\"Intrusions by Severity\" width=\"100%\"></fazchart><fazchart mkey=\"551841b39a8c42498426e08c085427fc\" title=\"Blocked Intrusions\" width=\"100%\"></fazchart><fazchart mkey=\"857e6295cbff4d669d00f8c7621a72df\" title=\"Intrusion Timeline\" width=\"100%\"></fazchart><div style=\"page-break-after: always\"><span style=\"display:none\">&nbsp;</span></div><h1>Detected &quot;Zero-Day&quot; Attacks on the Network</h1><p>A zero-day vulnerability is a previously unknown threat that does not yet have a patch available from the vendor. Commonly used applications such as web browsers and email client applications are often targeted for zero-day exploits due to their widespread distribution and usage; for example, attacks may send a zero-day malware as email attachments that exploit vulnerabilities in the application opening the attachment.</p><p>The FortiGuard research team proactively monitors the threat landscape and looks for zero-day vulnerabilities; once a zero-day vulnerability is identified, one or more advanced signatures are developed and delivered to customers before a vendor's patch version is available. These signatures are unique to Fortinet and play a crucial role in combating advanced persistent threats (APTs).</p><p>The following section provides a summary of files analyzed by FortiCloud Sandbox during the latest period.</p><fazchart mkey=\"fa6b2d985aca4a0ab51a136b77b6e306\" title=\"Zero-Day Malware Found on the Network by AntiVirus Scanning, sorted by count\" width=\"100%\"></fazchart><fazchart mkey=\"2c57f4805e5342059039405c4192156a\" title=\"Files Analyzed by Sandbox\" width=\"100%\"></fazchart><fazchart mkey=\"7be3909369ad40b8b1ca349147271aa4\" title=\"Malicious Files Found by Sandbox\" width=\"100%\"></fazchart><p>&nbsp;</p>",
+    "category": "Security",
+    "chart-heading-level": 2,
+    "chart-info-display": 0,
+    "component": null,
+    "coverpage-background-image": "{user_img_path}/Clipboard03.png",
+    "coverpage-bottom-image": "",
+    "coverpage-custom-text1": "",
+    "coverpage-custom-text2": "",
+    "coverpage-enable-create-time": 1,
+    "coverpage-enable-time-period": 1,
+    "coverpage-footer-bgcolor": "#DC2127",
+    "coverpage-footer-left": "",
+    "coverpage-footer-right": "",
+    "coverpage-text-color": "#666666",
+    "coverpage-title": "Threats and Vulnerabilities",
+    "coverpage-top-image": "",
+    "coverpage-top-image-position": 1,
+    "description": "Malware, Botnets - detected, victims and sources. Intrusions detected, sources, blocked severity and timeline.",
+    "dev-type": 0,
+    "folders": [
+        {
+            "folder-id": null
+        }
+    ],
+    "font-color": "#000000",
+    "font-family": "Open Sans",
+    "font-size": 12,
+    "font-type": 0,
+    "footer": [
+        {
+            "footer-id": 1,
+            "graphic": null,
+            "text": "",
+            "type": 9
+        }
+    ],
+    "footer-bgcolor": "#FFFFFF",
+    "header": [
+        {
+            "graphic": "{user_img_path}/cropped-logo_ibs-1.png",
+            "header-id": 1,
+            "text": null,
+            "type": 1
+        }
+    ],
+    "header-bgcolor": "#FFFFFF",
+    "hide-report-title": 0,
+    "hide-rowid": 0,
+    "include-empty-charts": 1,
+    "is-template": 0,
+    "language": null,
+    "left-margin": 6,
+    "protected": 0,
+    "right-margin": 6,
+    "title": "Threat"
+}

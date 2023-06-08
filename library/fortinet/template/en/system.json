@@ -1,0 +1,61 @@
+{
+    "alignment": 0,
+    "bg-color": "#FFFFFF",
+    "body": "<h1>Administrator Access and System Events</h1><fazchart mkey=\"b5abcc1c94a94f0d953271c0a7816b6f\" title=\"Summary of Top 20 Administrator Accesses\" width=\"100%\"></fazchart><fazchart mkey=\"a27d9a34ce2a4584af7a0421a57ef4cc\" title=\"Summary of Administrator Accesses by Date\" width=\"100%\"></fazchart><fazchart mkey=\"63befc03fa4742d8a578e6457a55f178\" title=\"Top 20 Failed Administrator Accesses\" width=\"100%\"></fazchart><fazchart mkey=\"08b074dd252747a9ba132e3473925b93\" title=\"Summary of Top 5 System Events by Severity\" width=\"100%\"></fazchart><fazchart mkey=\"1b964b5735e64b39a8e924f6de13f830\" title=\"Summary of System Events by Date\" width=\"100%\"></fazchart><fazchart mkey=\"978f3e29fb7f4e6881bde8c73477feb2\" title=\"Top 100 System Events with Critical Severity\" width=\"100%\"></fazchart><fazchart mkey=\"5e8b16561bd2426297c7d304f957e648\" title=\"Top 100 System Events with High Severity\" width=\"100%\"></fazchart><fazchart mkey=\"ca8b0506a1c545da9f53953522d02a51\" title=\"Top 100 System Events with Medium Severity\" width=\"100%\"></fazchart><div style=\"page-break-after: always\"><span style=\"display:none\">&nbsp;</span></div><h1>VPN</h1><fazchart mkey=\"c2a8cb6313ff4271a7b135fc6517c778\" title=\"VPN Traffic Volume\" width=\"100%\"></fazchart><fazchart mkey=\"de92f9c38ca54f33ad66a4bcec5d1cbf\" title=\"VPN Access List\" width=\"100%\"></fazchart><fazchart mkey=\"9aaf54307ece4cd09ac0a2eb68ecda09\" title=\"Top 10 VPN Accesses\" width=\"100%\"></fazchart><fazchart mkey=\"1bd7fb06d634409f9fda142c891c9739\" title=\"Top 10 Failed VPN Access Attempts\" width=\"100%\"></fazchart><fazchart mkey=\"b3fb8825d25c426496af8cf7a16235b3\" title=\"Top 10 Dial-Up VPN Users (SSL and IPsec) by Duration\" width=\"100%\"></fazchart><fazchart mkey=\"0987e7e331784c6caab3f47f7f446e63\" title=\"Top 10 SSLVPN Sources (Tunnel Mode) by Traffic Volume\" width=\"100%\"></fazchart><fazchart mkey=\"0350ad65a5d44c4db945ce2f2a277340\" title=\"Top 10 SSLVPN Users (Tunnel Mode) by Traffic Volume\" width=\"100%\"></fazchart><fazchart mkey=\"0cbe13978eaf4dfc91e1a0a2dbd8fa92\" title=\"Top 10 SSLVPN Users (Web Mode) by Duration\" width=\"100%\"></fazchart><fazchart mkey=\"fd9ef3ecde6b4470a3f5a3aca0d046af\" title=\"Top 10 SSLVPN Users (Web and Tunnel Mode) by Duration\" width=\"100%\"></fazchart><fazchart mkey=\"88e7888eb1c7407887141de227213087\" title=\"Top 10 IPsec VPN Users (Dial-Up Tunnel) by Traffic Volume\" width=\"100%\"></fazchart><fazchart mkey=\"5761aefcaf554e748149ad2abe62a184\" title=\"Top 10 IPsec VPN Users (Site-to-Site Tunnel) by Traffic Volume\" width=\"100%\"></fazchart><fazchart mkey=\"ff334060c9cd4b25ba798a5663fcdc13\" title=\"Top 10 IPsec VPN Dial-Up Tunnels by Traffic Volume\" width=\"100%\"></fazchart><fazchart mkey=\"d4d3ead0c2c94b1cbadf572fdbde9f48\" title=\"Top 10 IPsec VPN Dial-Up Users by Traffic Volume\" width=\"100%\"></fazchart><fazchart mkey=\"73df23133b414739bd477a73d100339a\" title=\"Top 10 IPsec VPN Dial-Up Users by Duration\" width=\"100%\"></fazchart><p>&nbsp;</p>",
+    "category": "Security",
+    "chart-heading-level": 2,
+    "chart-info-display": 0,
+    "component": null,
+    "coverpage-background-image": "{user_img_path}/Clipboard03.png",
+    "coverpage-bottom-image": "",
+    "coverpage-custom-text1": "",
+    "coverpage-custom-text2": "",
+    "coverpage-enable-create-time": 1,
+    "coverpage-enable-time-period": 1,
+    "coverpage-footer-bgcolor": "#DAACFF",
+    "coverpage-footer-left": "",
+    "coverpage-footer-right": "",
+    "coverpage-text-color": "#666666",
+    "coverpage-title": "System Events and VPN",
+    "coverpage-top-image": "",
+    "coverpage-top-image-position": 1,
+    "description": "Security Analysis of traffic, application, user, destination, bandwidth and sessions. DHCP, Wifi, traffic history. Web usage by users, categories and sites. Top email by senders, recipients. Malware, botnet, intrusion detections, victims and sources. VPN usage. Admin Login and system events.",
+    "dev-type": 0,
+    "folders": [
+        {
+            "folder-id": null
+        }
+    ],
+    "font-color": "#000000",
+    "font-family": "Open Sans",
+    "font-size": 12,
+    "font-type": 0,
+    "footer": [
+        {
+            "footer-id": 1,
+            "graphic": null,
+            "text": "",
+            "type": 9
+        }
+    ],
+    "footer-bgcolor": "#FFFFFF",
+    "header": [
+        {
+            "graphic": "{user_img_path}/cropped-logo_ibs-1.png",
+            "header-id": 1,
+            "text": null,
+            "type": 1
+        }
+    ],
+    "header-bgcolor": "#FFFFFF",
+    "hide-report-title": 0,
+    "hide-rowid": 0,
+    "include-empty-charts": 1,
+    "is-template": 0,
+    "language": null,
+    "left-margin": 6,
+    "protected": 0,
+    "report-tag": "",
+    "right-margin": 6,
+    "title": "VPN-System"
+}
