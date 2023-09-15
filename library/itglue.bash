@@ -4,32 +4,31 @@
 . /library/system.bash
 
 # Check if RESPONSE variable is not defined
-if ! [ -v RESPONSE ] ; then
+if ! [ -v RESPONSE ]; then
   declare -a RESPONSE=()
 fi
 
 # Check if ENVIRONMENT_ITGLUE variable is not defined
-if ! [ -v ENVIRONMENT_ITGLUE ] ; then
+if ! [ -v ENVIRONMENT_ITGLUE ]; then
   RESPONSE+=("environment: Specifies the URL IT Glue API.")
 fi
 
 # Check if ENVIRONMENT_ITGLUE_APIKEY variable is not defined
-if ! [ -v ENVIRONMENT_ITGLUE_APIKEY ] ; then
+if ! [ -v ENVIRONMENT_ITGLUE_APIKEY ]; then
   RESPONSE+=("environment: Specifies the IT Glue API KEY.")
 fi
 
 ENVIRONMENT_ITGLUE_APIKEY="x-api-key: $ENVIRONMENT_ITGLUE_APIKEY"
 ENVIRONMENT_ITGLUE_PAGINATION='{ data: [ .data[] | %s ], next: ( try( .meta["next-page"] ) // 0 ) }'
 
-itglue.get.all()
-{
+itglue.get.all() {
   # Initialize variables
   local page=1
   local response='[]'
   local cmd=null
 
   # Loop until page is 0
-  while [[ $page -ne 0 ]] ; do
+  while [[ $page -ne 0 ]]; do
     # Call the provided command with the current page and additional arguments
     cmd=$("${@:1:1}" $page "${@:2}")
 
@@ -46,8 +45,7 @@ itglue.get.all()
   return 0
 }
 
-itglue.configuration.get()
-{
+itglue.configuration.get() {
   # Define the query string template
   local query='[ { "key": "page[size]", "value": 600 }, { "key": "page[number]", "value": %u }, { "key": "filter[archived]", "value": false }, { "key": "filter[configuration_status_id]", "value": %s } ]'
 
@@ -55,7 +53,7 @@ itglue.configuration.get()
   local query=$(printf "$query" "$1" "$ENVIRONMENT_ITGLUE_CONFIGURATION_STATUS_ACTIVE")
 
   # Append additional arguments to the query string if provided
-  [[ ! -z "$2" ]] && query=$($JQ -rc --argjson arguments "$2" '. + $arguments' <<< "$query")
+  [[ ! -z "$2" ]] && query=$($JQ -rc --argjson arguments "$2" '. + $arguments' <<<"$query")
 
   # Construct the final query string
   local query=$(system.querystring "$query")
@@ -68,13 +66,12 @@ itglue.configuration.get()
   # Send the API request and extract the desired information using jq
   local result=$($CURL -s -G -H "Content-Type: application/vnd.api+json" -H "$ENVIRONMENT_ITGLUE_APIKEY" --compressed "https://$ENVIRONMENT_ITGLUE/configurations?$query")
 
-  $JQ -rc "$result_extract_definition $result_extract" <<< "$result"
+  $JQ -rc "$result_extract_definition $result_extract" <<<"$result"
 
   return 0
 }
 
-itglue.organization.patch.shortname()
-{
+itglue.organization.patch.shortname() {
   # Define the query for updating the organization's short name and quick notes
   local query='{ "data": { "type": "organizations", "attributes": { "short_name": "%s", "quick-notes": "NAMING: %s" } } }'
   local query=$(printf "$query" "$2" "$2")
@@ -87,14 +84,13 @@ itglue.organization.patch.shortname()
   return 0
 }
 
-itglue.organization.get()
-{
+itglue.organization.get() {
   # Define the query for retrieving organizations from IT Glue
   local query='[ { "key": "page[size]", "value": 600 }, { "key": "page[number]", "value": %u }, { "key": "filter[archived]", "value": false } ]'
   local query=$(printf "$query" "$1")
 
   # Add additional query parameters if provided
-  [[ ! -z "$2" ]] && query=$($JQ -rc --argjson arguments "$2" '. + $arguments' <<< "$query")
+  [[ ! -z "$2" ]] && query=$($JQ -rc --argjson arguments "$2" '. + $arguments' <<<"$query")
 
   # Construct the final query string
   local query=$(system.querystring "$query")
@@ -107,19 +103,18 @@ itglue.organization.get()
   local result=$($CURL -s -G -H "Content-Type: application/vnd.api+json" -H "$ENVIRONMENT_ITGLUE_APIKEY" --compressed "https://$ENVIRONMENT_ITGLUE/organizations?$query")
 
   # Extract and format the desired result fields
-  $JQ -rc "$result_extract" <<< "$result"
+  $JQ -rc "$result_extract" <<<"$result"
 
   return 0
 }
 
-itglue.flexible.get()
-{
+itglue.flexible.get() {
   # Define the query for flexible assets
   local query='[ { "key": "page[size]", "value": 600 }, { "key": "page[number]", "value": %u }, { "key": "filter[flexible-asset-type-id]", "value": %s } ]'
   local query=$(printf "$query" ${@:1:2})
 
   # Append additional arguments to the query if provided
-  [[ ! -z "$3" ]] && query=$($JQ -rc --argjson arguments "$3" '. + $arguments' <<< "$query")
+  [[ ! -z "$3" ]] && query=$($JQ -rc --argjson arguments "$3" '. + $arguments' <<<"$query")
 
   # Convert the query to a query string format
   local query=$(system.querystring "$query")
@@ -132,19 +127,18 @@ itglue.flexible.get()
   local result=$($CURL -s -G -H "Content-Type: application/vnd.api+json" -H "$ENVIRONMENT_ITGLUE_APIKEY" --compressed "https://$ENVIRONMENT_ITGLUE/flexible_assets?$query")
 
   # Extract the desired result fields from the response
-  $JQ -rc "$result_extract" <<< "$result"
+  $JQ -rc "$result_extract" <<<"$result"
 
   return 0
 }
 
-itglue.contact.get()
-{
+itglue.contact.get() {
   # Define the query for contacts
   local query='[ { "key": "page[size]", "value": 600 }, { "key": "page[number]", "value": %u } ]'
   local query=$(printf "$query" "$1")
 
   # Append additional arguments to the query if provided
-  [[ ! -z "$2" ]] && query=$($JQ -rc --argjson arguments "$2" '. + $arguments' <<< "$query")
+  [[ ! -z "$2" ]] && query=$($JQ -rc --argjson arguments "$2" '. + $arguments' <<<"$query")
 
   # Convert the query to a query string format
   local query=$(system.querystring "$query")
@@ -157,7 +151,7 @@ itglue.contact.get()
   local result=$($CURL -s -G -H "Content-Type: application/vnd.api+json" -H "$ENVIRONMENT_ITGLUE_APIKEY" --compressed "https://$ENVIRONMENT_ITGLUE/contacts?$query")
 
   # Extract the desired result fields from the response
-  $JQ -rc "$result_extract" <<< "$result"
+  $JQ -rc "$result_extract" <<<"$result"
 
   return 0
 }
