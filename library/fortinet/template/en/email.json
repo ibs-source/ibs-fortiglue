@@ -1,1 +1,5 @@
-{"email-subject":"E-Mail di test","email-body":"E-Mail di test"}
+{
+    "email-subject": "IBS srl Security Report",
+    "email-body": "Good morning,\nAs part of our ongoing commitment to providing you with the best in cybersecurity, we are sending you the monthly report related to your system, monitored through the FortiGate device.\n\nThe cybersecurity team conducted a thorough analysis of the collected data and extracted key metrics that highlight the performance and security of your system over the past month.\n\nAttachment: In the attached document, you will find the complete report with all the relevant metrics and details. We suggest you review it carefully and contact us if you wish to discuss specific areas of interest or concern.\n\nWe appreciate your trust in us and are always available for any clarification or further information you may need.\n\nBest regards,\nIBS s.r.l.",
+    "output-format": 2
+}

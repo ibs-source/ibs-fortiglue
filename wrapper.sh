@@ -114,6 +114,10 @@ reportmymakeitem() {
   [ $folder -lt 0 ] && folder=$(fortianalyzer.folder.create "$GSESSION" "$adom" "$ENVIRONMENT_FORTIANALYZER_FOLDER" "$response_short")
 
   local file=null
+  # Uncomment this line to force the email recipients. Used for developer purpose.
+  # <code data-overload>
+  #   local contacts='["alessandro.civiero@ibs.srl","paolo.moserle@ibs.srl","luca.attori@ibs.srl"]'
+  # </code>
   local contacts=$($JQ -rc --arg from "$ENVIRONMENT_FORTIANALYZER_EMAIL_FROM" --arg smtp "$ENVIRONMENT_FORTIANALYZER_EMAIL_SMTP" '[ { "email-from": $from, "email-server": $smtp, "address": .[] } ]' <<<"$contacts")
   local profile=$(fortianalyzer.output.create "$GSESSION" "$adom" "$response_short" "$language" "$contacts")
   while read file; do

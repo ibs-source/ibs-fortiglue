@@ -1,4 +1,5 @@
 {
-    "email-subject": "E-Mail di test",
-    "email-body": "E-Mail di test"
+    "email-subject": "IBS srl Security Report",
+    "email-body": "Buongiorno,\nCome parte del nostro impegno continuo a fornirti il meglio in termini di sicurezza informatica, ti inviamo il report mensile relativo al tuo sistema, monitorato attraverso il dispositivo FortiGate.\n\nIl team di sicurezza informatica ha condotto un'analisi approfondita dei dati raccolti e ha estratto metriche chiave che evidenziano le prestazioni e la sicurezza del tuo sistema nel corso dell'ultimo mese.\n\nAllegato: Nel documento allegato, troverai il report completo con tutte le metriche e dettagli rilevanti. Ti suggeriamo di esaminarlo attentamente e di contattarci se desideri discutere di particolari aree di interesse o preoccupazione.\n\nApprezziamo la tua fiducia in noi e siamo sempre a disposizione per qualsiasi chiarimento o ulteriore informazione tu possa richiedere.\n\nUn cordiale saluto,\nIBS s.r.l.",
+    "output-format": 2
 }

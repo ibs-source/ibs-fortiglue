@@ -376,7 +376,7 @@ fortianalyzer.output.create() {
   local query='{ "id": 1, "jsonrpc": "2.0", "method": "add", "session": "%s", "params": [ { "apiver": 3, "url": "/report/adom/%s/config/output", "data": %s } ] }'
 
   # Specify the default query body for creating an output
-  local query_body='{ "email": 1, "email-attachment-compress": 1, "email-recipients": [], "name": "" }'
+  local query_body='{ "email": 1, "email-attachment-compress": 0, "email-recipients": [], "name": "" }'
 
   # Format the query with the provided parameters
   local query=$(printf "$query" "${@:1:2}" "$query_body")
