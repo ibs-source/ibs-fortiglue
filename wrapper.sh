@@ -216,10 +216,13 @@ report() {
   return 0
 }
 
-# Print a message indicating the start of naming synchronization between ITGlue and Fortinet application
-printf "\n\n\tStart naming synchronization between ITGlue and Fortinet application!\n\n"
+# Checking if the environment variable ENVIRONMENT_FORTINET_NOSYNC is not defined for run sync process
+if ! [ -v ENVIRONMENT_FORTINET_NOSYNC ]; then
+  # Print a message indicating the start of naming synchronization between ITGlue and all Fortinet application
+  printf "\n\n\tStart naming synchronization between ITGlue and Fortinet application!\n\n"
 
-sync
+  sync
+fi
 
 # Print a message indicating the start of automation to generate a report in FortiAnalyzer
 printf "\n\n\tStart automation to generate report in FortiAnalyzer.\n\n"

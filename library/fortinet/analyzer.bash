@@ -286,6 +286,7 @@ fortianalyzer.schedule.create() {
 
   return 0
 }
+
 fortianalyzer.layout.get() {
   # Construct the query to retrieve layout data
   local query='{ "id": 1, "jsonrpc": "2.0", "method": "get", "session": "%s", "params": [ { "apiver": 3, "url": "/report/adom/%s/config/layout" } ] }'
@@ -325,6 +326,17 @@ fortianalyzer.layout.create() {
   # Load the template query from the specified template file
   local template_query='.language = $language | .title = ( $short|ascii_upcase) + "-" + ( $language|ascii_upcase ) + "-" + .title | .folders[0]["folder-id"] = ( $id|tonumber )'
   local template=$($JQ -rc --arg id "$5" --arg short "$3" --arg language "$4" "$template_query" "$TEMPLATE/${4}/${6}.json")
+
+  # Check if the ENVIRONMENT_FORTIANALYZER_OVERLOAD variable is defined.
+  # This variable is used for customizing the template with additional settings.
+  if [ -v ENVIRONMENT_FORTIANALYZER_OVERLOAD ]; then
+    # Define a jq filter to merge the overload settings into the existing template.
+    local template_overload='. + $overload'
+
+    # Apply the jq filter to update the 'template' with the overload settings.
+    # The overload settings are passed to jq, merging them with the current template.
+    template=$($JQ -rc --argjson overload "$ENVIRONMENT_FORTIANALYZER_OVERLOAD" "$template_overload" <<<"$template")
+  fi
 
   # Construct the query to create a layout
   local query='{ "id": 1, "jsonrpc": "2.0", "method": "add", "session": "%s", "params": [ { "apiver": 3, "url": "/report/adom/%s/config/layout", "data": { } } ] }'
