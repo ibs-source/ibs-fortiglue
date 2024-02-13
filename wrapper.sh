@@ -62,9 +62,12 @@ syncupdate() {
   local devices="$1"
   local name=$($JQ -rc '"[" + .name + "] - " + .organization' <<<"$devices")
 
-  # Updating the item in FortiManager
-  fortimanager.product.update "$GAUTHORIZATION" "$devices" &
-  system.spinner "$name @ FortiManager"
+  # Checking if the environment variable ENVIRONMENT_FORTINET_NOSYNC is not defined for run fortimanager process
+  if ! [ -v ENVIRONMENT_FORTINET_NOSYNC ]; then
+    # Updating the item in FortiManager
+    fortimanager.product.update "$GAUTHORIZATION" "$devices" &
+    system.spinner "$name @ FortiManager"
+  fi
 
   # Renaming the item in FortiAnalyzer
   fortianalyzer.device.rename "$GSESSION" "$devices" &
@@ -216,13 +219,10 @@ report() {
   return 0
 }
 
-# Checking if the environment variable ENVIRONMENT_FORTINET_NOSYNC is not defined for run sync process
-if ! [ -v ENVIRONMENT_FORTINET_NOSYNC ]; then
-  # Print a message indicating the start of naming synchronization between ITGlue and all Fortinet application
-  printf "\n\n\tStart naming synchronization between ITGlue and Fortinet application!\n\n"
+# Print a message indicating the start of naming synchronization between ITGlue and all Fortinet application
+printf "\n\n\tStart naming synchronization between ITGlue and Fortinet application!\n\n"
 
-  sync
-fi
+sync
 
 # Print a message indicating the start of automation to generate a report in FortiAnalyzer
 printf "\n\n\tStart automation to generate report in FortiAnalyzer.\n\n"
