@@ -255,7 +255,7 @@ fortianalyzer.schedule.get() {
 
 fortianalyzer.schedule.delete() {
   # Construct the query to delete a schedule
-  local query='{ "id": 1, "jsonrpc": "2.0", "method": "delete", "session": "%s", "params": [ { "apiver": 3, "url":"/report/adom/%s/config/schedule/%u" } ] }'
+  local query='{ "id": 1, "jsonrpc": "2.0", "method": "delete", "session": "%s", "params": [ { "apiver": 3, "url":"/report/adom/%s/config/schedule/%s" } ] }'
 
   # Use the fortianalyzer.repeat function to repeat the delete operation for multiple schedules
   fortianalyzer.repeat "${@:1:3}" "$query"
@@ -308,7 +308,7 @@ fortianalyzer.layout.get() {
 
 fortianalyzer.layout.delete() {
   # Construct the query to delete a layout
-  local query='{ "id": 1, "jsonrpc": "2.0", "method": "delete", "session": "%s", "params": [ { "apiver": 3, "url": "/report/adom/%s/config/layout/%s" } ] }'
+  local query='{ "id": 1, "jsonrpc": "2.0", "method": "delete", "session": "%s", "params": [ { "apiver": 3, "url": "/report/adom/%s/config/layout/%u" } ] }'
 
   # Retrieve the schedule for the layout
   local schedule=$(fortianalyzer.schedule.get "${@:1:3}" | $JQ -rc '[ .[].name ]')
