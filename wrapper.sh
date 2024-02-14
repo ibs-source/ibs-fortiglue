@@ -126,10 +126,12 @@ reportmymakeitem() {
   while read file; do
     local name=$(basename "$file" .json)
     [[ "email" == "$name" ]] && continue
-
+    
+    # Generate a UUID to prevent duplicate names, which are not allowed by the application.
+    local uuid=$(uuidgen)
     # Create profile recipient e-mail and schedule
-    local file=$(fortianalyzer.layout.create "$GSESSION" "$adom" "$response_short" "$language" "$folder" "$name")
-    fortianalyzer.schedule.create "$GSESSION" "$adom" "$file" "$profile" "$passed" >>/dev/null
+    local file=$(fortianalyzer.layout.create "$GSESSION" "$adom" "$response_short" "$language" "$folder" "$name" "$uuid")
+    [ $? -eq 0 ] && fortianalyzer.schedule.create "$GSESSION" "$adom" "$file" "$profile" "$passed" "$uuid" >>/dev/null
   done <<<$(find "$TEMPLATE/${language}/" -type f)
 
   return 0
