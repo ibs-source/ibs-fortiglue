@@ -270,7 +270,7 @@ fortianalyzer.schedule.create() {
   local query=$(printf "$query" "${@:1:2}" "$query_body")
 
   # Build the query body using the provided arguments
-  local query_build='.params[0].data = ( .params[0].data * $template ) | .params[0].data.name = ( $name|ascii_upcase ) + "-" + ( $uuid|ascii_upcase ) | .params[0].data["output-profile"] = $profile | .params[0].data["report-layout"] = [ { "layout-id": ( $name|tonumber ) } ] | .params[0].data.devices = ( [ { "interfaces": null, "devices-name": $devices[] } ] ) '
+  local query_build='.params[0].data = ( .params[0].data * $template ) | .params[0].data.name = ( ( $name|ascii_upcase ) + "-" + ( $uuid|ascii_upcase ) ) | .params[0].data["output-profile"] = $profile | .params[0].data["report-layout"] = [ { "layout-id": ( $name|tonumber ) } ] | .params[0].data.devices = ( [ { "interfaces": null, "devices-name": $devices[] } ] ) '
   local query=$($JQ -rc --argfile template "$TEMPLATE/schedule.json" --arg name "$3" --arg profile "$4" --arg uuid "$6" --argjson devices "$5" "$query_build" <<<"$query")
 
   # Send the query to create the schedule and store the result
@@ -324,7 +324,7 @@ fortianalyzer.layout.delete() {
 
 fortianalyzer.layout.create() {
   # Load the template query from the specified template file
-  local template_query='.language = $language | .title = ( $short|ascii_upcase) + "-" + ( $language|ascii_upcase ) + "-" + ( $uuid|ascii_upcase ) + "-" + .title | .folders[0]["folder-id"] = ( $id|tonumber )'
+  local template_query='.language = $language | .title = ( ( $short|ascii_upcase) + "-" + ( $language|ascii_upcase ) + "-" + ( $uuid|ascii_upcase ) + "-" + .title ) | .folders[0]["folder-id"] = ( $id|tonumber )'
   local template=$($JQ -rc --arg id "$5" --arg short "$3" --arg language "$4" --arg uuid "$7" "$template_query" "$TEMPLATE/${4}/${6}.json")
 
   # Check if the ENVIRONMENT_FORTIANALYZER_OVERLOAD variable is defined.
@@ -394,10 +394,10 @@ fortianalyzer.output.create() {
   local query=$(printf "$query" "${@:1:2}" "$query_body")
 
   # Build the final query by modifying the query body using JQ
-  local query_build='.params[0].data = ( .params[0].data * $template ) | .params[0].data["email-recipients"] = $recipients | .params[0].data.name = ( ( $short|ascii_upcase) + "-" + ($language|ascii_upcase) )'
+  local query_build='.params[0].data = ( .params[0].data * $template ) | .params[0].data["email-recipients"] = $recipients | .params[0].data.name = ( ( $short|ascii_upcase) + "-" + ($language|ascii_upcase) + "-" + ( $uuid|ascii_upcase) )'
 
   # Use JQ to replace placeholders in the query with actual values
-  local query=$($JQ -rc --arg language "$4" --arg short "$3" --argjson recipients "$5" --argfile template "$TEMPLATE/${4}/email.json" "$query_build" <<<"$query")
+  local query=$($JQ -rc --arg language "$4" --arg short "$3" --arg uuid "$6" --argjson recipients "$5" --argfile template "$TEMPLATE/${4}/email.json" "$query_build" <<<"$query")
 
   # Send the query to Fortianalyzer and store the result
   local query_result=$($CURL -s -X POST -H "Content-Type: application/json" --compressed --insecure "https://$ENVIRONMENT_FORTIANALYZER_FQDN/jsonrpc" --data "$query")

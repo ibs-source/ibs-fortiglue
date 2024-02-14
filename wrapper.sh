@@ -122,7 +122,8 @@ reportmymakeitem() {
   #   local contacts='["alessandro.civiero@ibs.srl","paolo.moserle@ibs.srl","luca.attori@ibs.srl"]'
   # </code>
   local contacts=$($JQ -rc --arg from "$ENVIRONMENT_FORTIANALYZER_EMAIL_FROM" --arg smtp "$ENVIRONMENT_FORTIANALYZER_EMAIL_SMTP" '[ { "email-from": $from, "email-server": $smtp, "address": .[] } ]' <<<"$contacts")
-  local profile=$(fortianalyzer.output.create "$GSESSION" "$adom" "$response_short" "$language" "$contacts")
+  local profile_uuid=$(uuidgen)
+  local profile=$(fortianalyzer.output.create "$GSESSION" "$adom" "$response_short" "$language" "$contacts" "$profile_uuid")
   while read file; do
     local name=$(basename "$file" .json)
     [[ "email" == "$name" ]] && continue
