@@ -270,8 +270,8 @@ fortianalyzer.schedule.create() {
   local query=$(printf "$query" "${@:1:2}" "$query_body")
 
   # Build the query body using the provided arguments
-  local query_build='.params[0].data = ( .params[0].data * $template ) | .params[0].data.name = ( ( $name|ascii_upcase ) + "-" + ( $uuid|ascii_upcase ) ) | .params[0].data["output-profile"] = $profile | .params[0].data["report-layout"] = [ { "layout-id": ( $name|tonumber ) } ] | .params[0].data.devices = ( [ { "interfaces": null, "devices-name": $devices[] } ] ) '
-  local query=$($JQ -rc --argfile template "$TEMPLATE/schedule.json" --arg name "$3" --arg profile "$4" --arg uuid "$6" --argjson devices "$5" "$query_build" <<<"$query")
+  local query_build='.params[0].data = ( .params[0].data * $template ) | .params[0].data.name = ( $name|ascii_upcase ) | .params[0].data["output-profile"] = $profile | .params[0].data["report-layout"] = [ { "layout-id": ( $name|tonumber ) } ] | .params[0].data.devices = ( [ { "interfaces": null, "devices-name": $devices[] } ] ) '
+  local query=$($JQ -rc --argfile template "$TEMPLATE/schedule.json" --arg name "$3" --arg profile "$4" --argjson devices "$5" "$query_build" <<<"$query")
 
   # Send the query to create the schedule and store the result
   local query_result=$($CURL -s -X POST -H "Content-Type: application/json" --compressed --insecure "https://$ENVIRONMENT_FORTIANALYZER_FQDN/jsonrpc" --data "$query")
