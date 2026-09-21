@@ -1,5 +1,3 @@
-Dockerfile
-.git
-.env
-.gitignore
-.dockerignore
+*
+!library
+!wrapper.sh

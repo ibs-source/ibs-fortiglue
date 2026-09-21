@@ -6,5 +6,5 @@
   \_| \___/|_|   \__|_|\____/_|\__,_|\___|
                                         
                                         
-  The ITGlue & Fortinet Syncronization Tool
+  The IT Glue & Fortinet synchronisation tool
 
