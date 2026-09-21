@@ -24,6 +24,8 @@ import time
 import uuid
 
 HERE = os.path.dirname(os.path.abspath(__file__))
+sys.path.insert(0, HERE)
+import mock  # noqa: E402  - same directory, used to build the large data set
 ROOT = os.path.dirname(HERE)
 IMAGE = os.environ.get("FORTIGLUE_IMAGE", "ibs-fortiglue:test")
 PYTHON_IMAGE = os.environ.get("FORTIGLUE_TEST_PYTHON_IMAGE", "python:3.12-alpine")
@@ -370,6 +372,16 @@ def check_nominal(result, failures):
                    "schedule %s sends the report %s through the profile %s" % (name, title, profile),
                    failures)
 
+    # The parent folder is nested on a real appliance: that is ordinary, and an
+    # ADOM with no report configuration at all is not a failure.
+    expect("is not at the top level" not in result.output,
+           "a nested parent folder was reported as a problem", failures)
+    expect("holds no report configuration" in result.output,
+           "an ADOM with no report configuration was not reported as such", failures)
+    noisy = [line for line in result.output.splitlines()
+             if " error " in line and ("Unmanaged_Devices" in line or "rootp" in line)]
+    expect(not noisy, "an ADOM with no report configuration was treated as an error: %s" % noisy, failures)
+
     # The session must be handed back to the appliance.
     expect(result.snapshot.get("logout_calls", 0) >= 1, "the FortiAnalyzer session was never closed", failures)
     expect(not result.snapshot.get("session_open"), "the FortiAnalyzer session is still open", failures)
@@ -451,6 +463,40 @@ def check_forticare_down(result, failures):
     expect(result.outputs(), "the reports were not built while FortiCare was failing", failures)
 
 
+def large_dataset(total=800):
+    """The built in data set plus enough configurations to pass the limit on the
+    length of a single argument: a few hundred of them used to stop the run."""
+    data = mock.default_dataset()
+    for index in range(total):
+        data["configurations"].append({
+            "id": "5%04d" % index,
+            "name": "BULK%04d-HQ-SW01" % index,
+            "serial": "S248DF%010d" % index,
+            "organization": "Bulk Organization %d S.r.l." % index,
+            "oid": 30 + (index % 40),
+            "short": "BULK%02d" % (index % 40),
+            "ip": "10.%d.%d.1" % (index // 250, index % 250),
+            "type": "Switch",
+            "manufacturer": "Fortinet",
+            "tag": None,
+        })
+        data["forticare_assets"].append({"serialNumber": "S248DF%010d" % index, "description": ""})
+    return data
+
+
+def check_large_tenant(result, failures):
+    expect(result.code == 0, "exit code %d, expected 0" % result.code, failures)
+    expect("Argument list too long" not in result.output,
+           "the run hit the limit on the length of an argument", failures)
+    expect("809 active configurations" in result.output,
+           "the whole tenant was not read: %s"
+           % [line for line in result.output.splitlines() if "active configurations" in line], failures)
+    # Everything Fortinet has to be pushed, not only the first page.
+    expect(len(result.forticare()) > 700,
+           "only %d assets reached FortiCare" % len(result.forticare()), failures)
+    expect(result.outputs(), "the report stage did not run after the large sync", failures)
+
+
 def check_partner(result, failures):
     """The configuration a partner runs: own parent folder on the shared
     appliance, no FortiCare writes, own mail wording and own cover page."""
@@ -490,6 +536,13 @@ def check_partner(result, failures):
 
 
 SCENARIOS = {
+    "large-tenant": {
+        "check": check_large_tenant,
+        "environment": {"ENVIRONMENT_LOG_LEVEL": "info", "ENVIRONMENT_FORTINET_RATE": "0",
+                        "ENVIRONMENT_ITGLUE_RATE": "0"},
+        "dataset": large_dataset(),
+        "faults": None,
+    },
     "partner-instance": {
         "check": check_partner,
         "environment": {

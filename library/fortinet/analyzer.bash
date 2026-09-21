@@ -79,10 +79,11 @@ fortianalyzer.send() {
     --header "Content-Type: application/json" "${FORTIANALYZER_TLS[@]}"
 }
 
-# fortianalyzer.call <method> <url> [parameters JSON] [apiver]
+# fortianalyzer.call <method> <url> [parameters JSON] [apiver] [retried] [tolerated codes]
 #
-# Prints the "data" member of the answer. Returns 0 on success, 1 on failure,
-# and logs the reason. Both answer shapes of the appliance are handled here.
+# Prints the "data" member of the answer. Returns 0 on success, 2 when the
+# appliance answered with one of the tolerated codes, 1 on failure. Both answer
+# shapes of the appliance are handled here.
 fortianalyzer.call() {
   local method="$1"
   local url="$2"
@@ -90,6 +91,7 @@ fortianalyzer.call() {
   local apiver="${4:-}"
   [ -z "$parameters" ] && parameters='{}'
   local retried="${5:-0}"
+  local tolerate="${6:-}"
 
   local request
   request=$($JQ -nc \
@@ -134,7 +136,7 @@ fortianalyzer.call() {
   if [ "$code" -eq -11 ] && [ "$retried" -eq 0 ]; then
     system.log.warning "FortiAnalyzer session expired, signing in again"
     if fortianalyzer.login; then
-      fortianalyzer.call "$method" "$url" "$parameters" "$apiver" 1
+      fortianalyzer.call "$method" "$url" "$parameters" "$apiver" 1 "$tolerate"
       return $?
     fi
     return 1
@@ -142,6 +144,17 @@ fortianalyzer.call() {
 
   local message
   message=$($JQ -rc '( .result | if type == "array" then .[0] else . end ) | .status.message // empty' <<<"$response")
+
+  # Some ADOMs simply have no report configuration: an appliance answers -3 or
+  # -6 there, and that is an answer, not a failure of the night.
+  local accepted
+  for accepted in $tolerate; do
+    if [ "$code" = "$accepted" ]; then
+      system.log.debug "FortiAnalyzer $method $url: code $code${message:+, $message}, tolerated"
+      return 2
+    fi
+  done
+
   system.log.error "FortiAnalyzer $method $url refused with code $code${message:+: $message}"
 
   return 1
@@ -294,9 +307,12 @@ fortianalyzer.device.rename() {
 # ------------------------------------------------------------------ folders
 
 # fortianalyzer.folder.list <adom>
+# Returns 2 when the ADOM holds no report configuration at all.
 fortianalyzer.folder.list() {
-  local data
-  data=$(fortianalyzer.call get "/report/adom/$1/config/layout-folder" '{}' 3) || return 1
+  local data status=0
+  data=$(fortianalyzer.call get "/report/adom/$1/config/layout-folder" '{}' 3 0 "-3 -6") || status=$?
+  [ "$status" -eq 2 ] && return 2
+  [ "$status" -ne 0 ] && return 1
 
   $JQ -rc '[ .[]? | { "id": .["folder-id"], "name": .["folder-name"], "parent": ( .["parent-id"] // 0 ) } ]' <<<"$data"
 

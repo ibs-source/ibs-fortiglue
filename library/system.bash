@@ -455,9 +455,13 @@ system.request() {
   done
 }
 
-# Writes a JSON value into a temporary file and prints its path: this is how
-# request bodies reach curl without being exposed in the process arguments.
-system.request.body() {
+# Writes a value into a temporary file and prints its path.
+#
+# Every JSON blob that can grow with the size of the tenant travels this way.
+# Linux caps a single argument at 128 KiB, so a list of a few hundred IT Glue
+# configurations passed with --argjson stops the run with "Argument list too
+# long"; read from a file with --slurpfile there is no such limit.
+system.json.file() {
   local file
   file=$(system.temporary) || return 1
   printf '%s' "$1" >"$file"
@@ -465,4 +469,10 @@ system.request.body() {
   echo "$file"
 
   return 0
+}
+
+# Body of a request: same mechanism, and it keeps the credentials out of the
+# process arguments as well.
+system.request.body() {
+  system.json.file "$1"
 }

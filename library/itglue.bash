@@ -108,7 +108,12 @@ itglue.page() {
 itglue.get.all() {
   local page=1
   local rounds=0
-  local response='[]'
+
+  # The pages pile up in a file, one item per line, and are gathered at the end:
+  # a tenant with a few hundred configurations would not fit in an argument.
+  local collected
+  collected=$(system.temporary) || return 1
+  : >"$collected"
 
   while [ "$page" -ne 0 ]; do
     local chunk
@@ -118,7 +123,7 @@ itglue.get.all() {
     next=$($JQ -rc '.next' <<<"$chunk")
     system.number "$next" || next=0
 
-    response=$($JQ -rc --argjson old "$response" '$old + .data' <<<"$chunk") || return 1
+    $JQ -rc '.data[]?' <<<"$chunk" >>"$collected" || return 1
 
     rounds=$((rounds + 1))
     if [ "$next" -ne 0 ] && [ "$next" -le "$page" ]; then
@@ -133,7 +138,7 @@ itglue.get.all() {
     page="$next"
   done
 
-  echo "$response"
+  $JQ -sc '.' "$collected"
 
   return 0
 }

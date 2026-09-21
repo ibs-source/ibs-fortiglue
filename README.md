@@ -214,12 +214,14 @@ printed: the descriptions written, the devices renamed, which reports were
 replaced and which were left alone, whether the session was closed. The data
 set on purpose holds names with double quotes, backslashes, percent signs and
 accented letters, organizations with no recipient, contacts with no primary
-address, languages with no template, and the objects of a second instance
+address, languages with no template, ADOMs holding no report configuration at
+all, a parent folder nested in the tree, and the objects of a second instance
 serving a partner from its own folder on the same appliance.
 
 | scenario | what it pins down |
 | -------- | ----------------- |
 | `nominal` | descriptions, renames, reports replaced, everything else left alone, session closed |
+| `large-tenant` | a tenant of eight hundred configurations: pagination, and no value large enough to break a command line |
 | `partner-instance` | a partner run: own folder, no FortiCare writes, mounted mail template, overload on every layout |
 | `dry-run` | not a single call that writes leaves the container |
 | `session-expiry` | the session is renewed in the middle of the work and the work finishes |

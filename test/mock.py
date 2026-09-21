@@ -130,7 +130,10 @@ def default_dataset():
             {"sn": "FG100F0000000006", "name": "FGT-OLD-06", "desc": ""},
             {"sn": "FG100F0000000009", "name": "FGT-OLD-09", "desc": ""},
         ],
-        "adoms": ["root", "customers"],
+        "adoms": ["root", "customers", "Unmanaged_Devices", "rootp"],
+        # ADOMs whose report API answers with a code instead of a listing: a
+        # real appliance has several of them and they are not failures
+        "faz_reports_unsupported": {"Unmanaged_Devices": -3, "rootp": -6},
         "adom_devices": {
             "root": ["ACME-HQ-FW01", "ROSS-HQ-FW01", "GHOS-HQ-FW01", "device-out-of-convention"],
             "customers": ["UNIC-HQ-FW01"],
@@ -152,7 +155,8 @@ def default_dataset():
                 # serving a partner from its own parent folder on the very same
                 # appliance, for the very same organization. Nothing of it may
                 # be touched by a run working on the IBS folder.
-                "folders": {100: {"folder-name": "IBS", "parent-id": 0},
+                "folders": {99: {"folder-name": "Reports", "parent-id": 0},
+                            100: {"folder-name": "IBS", "parent-id": 99},
                             101: {"folder-name": "ACME", "parent-id": 100},
                             102: {"folder-name": "ROSS", "parent-id": 100},
                             103: {"folder-name": "PartnerReport", "parent-id": 0},
@@ -512,6 +516,14 @@ class Handler(BaseHTTPRequestHandler):
         return self.report_api(rid, method, url, params)
 
     def report_api(self, rid, method, url, params):
+        unsupported = DATA.get("faz_reports_unsupported", {})
+        for adom, code in unsupported.items():
+            if url.startswith("/report/adom/%s/" % adom):
+                return self.respond(200, {"id": rid, "result": {
+                    "status": {"code": code,
+                               "message": "Object does not exist" if code == -3 else "Invalid url"},
+                    "url": url}})
+
         def ok(data):
             return self.respond(200, {"id": rid, "result": {
                 "data": data, "status": {"code": 0, "message": "OK"}, "url": url}})

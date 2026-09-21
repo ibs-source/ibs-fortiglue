@@ -218,36 +218,44 @@ report.organization() {
 # Maps every organization to the devices it has to report on: its own firewalls
 # plus the firewalls of the organizations below it. Prints
 # [ { "oid": 11, "short": "ACME", "devices": [ "ACME-HQ-FW01" ] } ].
+#
+# The list of configurations travels through a file and the answer is worked out
+# in a single jq pass: on a large tenant these values pass the limit on the
+# length of a single argument.
 report.devices() {
   local names="$1"
 
   local configurations
   configurations=$(itglue.configuration.by.name "$names") || return 1
 
-  local known
+  local known known_file names_file
   known=$($JQ -rc '[ .[] | { "name": .name, "oid": .oid, "short": .short } ] | unique' <<<"$configurations")
+  known_file=$(system.json.file "$known") || return 1
+  names_file=$(system.json.file "$names") || return 1
 
   local missing
-  missing=$($JQ -nc --argjson names "$names" --argjson known "$known" \
-    '[ $names[] | select( . as $n | ( $known | map( .name ) | index( $n ) ) == null ) ]')
+  missing=$($JQ -nc --slurpfile known "$known_file" --slurpfile names "$names_file" '
+    ( $known[0] | map( .name ) ) as $have
+    | [ $names[0][] | select( . as $n | ( $have | index( $n ) ) == null ) ]')
   if [ "$($JQ -r 'length' <<<"$missing")" -ne 0 ]; then
     system.log.warning "Devices with no matching IT Glue configuration: $($JQ -rc 'join( ", " )' <<<"$missing")"
   fi
 
-  # Walk up the parent chain of every organization, so a parent gets the reports
-  # of the firewalls of its children as well.
-  local assignment='[]'
-  local entry oid short devices
-  while IFS= read -r entry; do
-    [ -z "$entry" ] && continue
-    oid=$($JQ -r '.oid' <<<"$entry")
-    short=$($JQ -r '.short // ""' <<<"$entry")
-    devices=$($JQ -rc '[ .name ]' <<<"$entry")
+  # Chain of every organization up to the top of the IT Glue hierarchy. It holds
+  # one short entry per organization, so it stays small whatever the tenant.
+  local chain='[]'
+  local oid
+  while IFS= read -r oid; do
+    [ -z "$oid" ] && continue
 
-    local current="$oid"
-    local guard=0
+    local short ancestors current guard
+    short=$($JQ -r --argjson oid "$oid" '[ .[] | select( .oid == $oid ) | .short ] | first // ""' <<<"$known")
+    ancestors='[]'
+    current="$oid"
+    guard=0
+
     while [ "$current" -gt 0 ] && [ "$guard" -lt 32 ]; do
-      local organization parent name
+      local organization name parent
       organization=$(report.organization "$current")
       name=$($JQ -r '.short // ""' <<<"$organization")
       if [ -z "$name" ] || [ "$name" = "null" ]; then
@@ -261,14 +269,8 @@ report.devices() {
         name="$short"
       fi
 
-      assignment=$($JQ -nc --argjson assignment "$assignment" --argjson oid "$current" \
-        --arg short "$name" --argjson devices "$devices" '
-        $assignment
-        | if ( map( .oid ) | index( $oid ) ) == null
-          then . + [ { "oid": $oid, "short": $short, "devices": $devices } ]
-          else map( if .oid == $oid then .devices = ( ( .devices + $devices ) | unique ) else . end )
-          end
-      ')
+      ancestors=$($JQ -nc --argjson ancestors "$ancestors" --argjson oid "$current" --arg short "$name" \
+        '$ancestors + [ { "oid": $oid, "short": $short } ]')
 
       parent=$($JQ -r '.parent // 0' <<<"$organization")
       system.number "$parent" || parent=0
@@ -276,9 +278,22 @@ report.devices() {
       current="$parent"
       guard=$((guard + 1))
     done
-  done < <($JQ -rc '.[]' <<<"$known")
 
-  $JQ -rc 'map( .devices |= ( . | unique | sort ) ) | sort_by( .oid )' <<<"$assignment"
+    chain=$($JQ -nc --argjson chain "$chain" --argjson oid "$oid" --argjson ancestors "$ancestors" \
+      '$chain + [ { "oid": $oid, "ancestors": $ancestors } ]')
+  done < <($JQ -r '[ .[].oid ] | unique | .[]' <<<"$known")
+
+  $JQ -nc --slurpfile known "$known_file" --argjson chain "$chain" '
+    ( $known[0] ) as $rows
+    | [ $chain[]
+        | . as $entry
+        | ( $rows | map( select( .oid == $entry.oid ) | .name ) ) as $devices
+        | $entry.ancestors[]
+        | { "oid": .oid, "short": .short, "devices": $devices } ]
+    | group_by( .oid )
+    | map( { "oid": .[0].oid, "short": .[0].short, "devices": ( map( .devices ) | add | unique | sort ) } )
+    | sort_by( .oid )
+  '
 
   return 0
 }
@@ -576,7 +591,7 @@ report.serve() {
       continue
     fi
     if [ "$($JQ -r 'length' <<<"$addresses")" -eq 0 ]; then
-      system.status warning "$short ($language) @ ADOM $adom names recipients with no usable address, the previous reports are kept"
+      system.status warning "$short ($language) @ ADOM $adom names recipients with no usable address (IT Glue contacts $($JQ -rc 'join( ", " )' <<<"$contacts")), the previous reports are kept"
       continue
     fi
 
@@ -597,30 +612,35 @@ report.serve() {
 report.adom() {
   local adom="$1"
 
-  local folders
-  if ! folders=$(fortianalyzer.folder.list "$adom"); then
+  local folders status=0
+  folders=$(fortianalyzer.folder.list "$adom") || status=$?
+  if [ "$status" -eq 2 ]; then
+    system.log.info "ADOM $adom holds no report configuration, nothing to do."
+    return 0
+  fi
+  if [ "$status" -ne 0 ]; then
     system.log.error "Report folders of ADOM $adom could not be read"
     return 1
   fi
 
-  # The parent folder is looked for at the top level first: a folder with the
-  # same name nested under another instance's tree is not ours.
-  local master
-  master=$(fortianalyzer.folder.search "$folders" "$ENVIRONMENT_FORTIANALYZER_FOLDER" 0)
-  if ! system.integer "$master"; then
+  # The parent folder can sit anywhere in the tree: on a real appliance it
+  # usually hangs from a folder of its own. Only a name used twice is a problem,
+  # and then a folder at the top level wins.
+  local matches count master
+  matches=$($JQ -rc --arg name "$ENVIRONMENT_FORTIANALYZER_FOLDER" '[ .[] | select( .name == $name ) ]' <<<"$folders")
+  count=$($JQ -r 'length' <<<"$matches")
+  if [ "$count" -eq 0 ]; then
+    system.log.info "ADOM $adom has no folder named $ENVIRONMENT_FORTIANALYZER_FOLDER, nothing to do."
+    return 0
+  fi
+
+  master=$($JQ -r 'sort_by( ( .parent | tonumber? // 0 ) != 0 ) | .[0].id' <<<"$matches")
+  if ! system.integer "$master" || [ "$master" -lt 0 ]; then
     system.log.error "The folder $ENVIRONMENT_FORTIANALYZER_FOLDER of ADOM $adom could not be looked up, nothing is touched"
     return 1
   fi
-  if [ "$master" -lt 0 ]; then
-    master=$(fortianalyzer.folder.search "$folders" "$ENVIRONMENT_FORTIANALYZER_FOLDER")
-    system.integer "$master" || master=-1
-    if [ "$master" -ge 0 ]; then
-      system.log.warning "The folder $ENVIRONMENT_FORTIANALYZER_FOLDER of ADOM $adom is not at the top level, using the one found at $master"
-    fi
-  fi
-  if [ "$master" -lt 0 ]; then
-    system.log.info "ADOM $adom has no folder named $ENVIRONMENT_FORTIANALYZER_FOLDER, nothing to do."
-    return 0
+  if [ "$count" -gt 1 ]; then
+    system.log.warning "ADOM $adom holds $count folders named $ENVIRONMENT_FORTIANALYZER_FOLDER, working on the one with identifier $master"
   fi
 
   local devices
