@@ -1,4 +1,4 @@
-FROM alpine:3.22
+FROM alpine:3.24
 
 LABEL org.opencontainers.image.title="ibs-fortiglue" \
       org.opencontainers.image.description="Nightly synchronisation between IT Glue and the Fortinet services" \
